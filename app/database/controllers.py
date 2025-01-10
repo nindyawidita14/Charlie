@@ -29,7 +29,7 @@ class Database:
     
     def get_average_act_cost(self):
         """Return the average act cost of prescribed items"""
-        return int(db.session.execute(db.select(func.avg(PrescribingData.ACT_cost))).first()[0])
+        return round(db.session.execute(db.select(func.avg(PrescribingData.ACT_cost))).first()[0],2)
     
     def get_prescribed_items_per_pct(self):
         """Return the total items per PCT."""
