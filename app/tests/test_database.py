@@ -27,5 +27,10 @@ class DatabaseTests(unittest.TestCase):
             """Test that the total number of items returns the correct value."""
             self.assertEqual(self.db_mod.get_total_number_items(), 8218165, 'Test total items returns correct value')
 
+    def test_get_average_act_cost(self):
+        with app.app_context():
+            """Test that the total number of items returns the correct value."""
+            self.assertEqual(self.db_mod.get_average_act_cost(), 76, 'Test total items returns correct value')
+
 if __name__ == "__main__":
     unittest.main()
