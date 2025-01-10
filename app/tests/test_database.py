@@ -9,7 +9,7 @@ DESCRIPTION:   Suite of tests for testing the dashboards database
 """
 
 import unittest
-#from app import app
+from app import app
 from app.database.controllers import Database
 
 class DatabaseTests(unittest.TestCase):
@@ -23,8 +23,14 @@ class DatabaseTests(unittest.TestCase):
         pass
 
     def test_get_total_number_items(self):
-        """Test that the total number of items returns the correct value."""
-        self.assertEquals(self.db_mod.get_total_number_items(), 8218165, 'Test total items returns correct value')
+        with app.app_context():
+            """Test that the total number of items returns the correct value."""
+            self.assertEqual(self.db_mod.get_total_number_items(), 8218165, 'Test total items returns correct value')
+
+    def test_get_average_act_cost(self):
+        with app.app_context():
+            """Test that the total number of items returns the correct value."""
+            self.assertEqual(self.db_mod.get_average_act_cost(), 76, 'Test total items returns correct value')
 
 if __name__ == "__main__":
     unittest.main()
