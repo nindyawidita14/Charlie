@@ -75,6 +75,14 @@
           </div>
         </li>
 
+         <!-- Search box for drug and BNF code - Utilities Collapse Menu -->
+         <li class="nav-item">
+          <div class="nav-link" onclick="popup.showSearchPopup();">
+            <i class="fas fa-search"></i>
+            <span>Search For Drug</span>
+          </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
       </ul>
@@ -171,7 +179,22 @@
                   </div>
                 </div>
               </div>
-
+             <!-- Summary of the total spend in drugs cost tile -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total drug spend:</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">£{{ dashboard_data.tile_data_items.total_act_cost }}</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-pound-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- Top prescribed items tile -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -287,7 +310,6 @@
               </div>
             </div>
           </div>
-          
             <!-- Creatinine clearance calculator -->
             <div id="creat-calc">
               <div class="card">
@@ -320,7 +342,47 @@
                   </div>
                 </div>
             </div>
+ <!-- Serch box drug by name or BNF CODE -->
 
+            
+
+             </form>
+
+ <div id="search-box">
+  <div class="card">
+      <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">SEARCH FOR DRUG BY BNF NAME OR BNF CODE</h6>
+    </div>
+        <selection class="selection">
+          <div class="columns">
+          <input type="text" class="input" placeholder= "SEARCH HERE" name="q" hx-get="/search" hx-trigger="keyup changeddelay:500ms">
+          <input type="submit" value="Search" class="btn btn-outline-secondary" />
+     </div>
+        <table class="table is-fullwidth">
+        <thead>
+          <td>BNF code</td>
+          <td>BNF name</td>
+          <td>NIC</td>
+          <td>ACT Cost</td>
+        </thead>
+          <tbody>
+           {% for row in dashboard_data.search %}
+            <tr>
+              <td>{{ row.BNF_code }}</td>
+              <td>{{ row.BNF_name }}</td>
+              <td>{{ row.NIC }}</td>
+              <td>{{ row.ACT_cost }}</td>
+            </tr>
+          {% endfor %}
+          </tbody id="results">
+        </table>
+        <button type="button" class="btn btn-danger" onclick="popup.hideSearchPopup();">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div> 
             <!-- About popup -->
             <div id="about-box">
               <div class="card">
