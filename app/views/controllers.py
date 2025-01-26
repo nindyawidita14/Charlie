@@ -38,7 +38,8 @@ def home():
         "tile_data_items": generate_data_for_tiles(),  
         "top_items_plot_data": generate_top_px_items_barchart_data(),
         "pct_list": pcts,
-        "pct_data": selected_pct_data
+        "pct_data": selected_pct_data,
+        "percentage_card_data": generate_data_for_card() 
     }
 
     db_mod.get_average_act_cost()
@@ -79,4 +80,15 @@ def generate_top_px_items_barchart_data():
         'description': description
     }
     return plot_data
+
+def generate_data_for_card():
+    """Generate data for the percentage card"""
+    card_data = {
+        "Antibacterials": db_mod.get_percentage_of_Antibacterials(),
+        "Antifungal": db_mod.get_percentage_of_Antifungal(),
+        "Antiviral": db_mod.get_percentage_of_Antiviral(),
+        "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
+        "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
+    }
+    return card_data
 

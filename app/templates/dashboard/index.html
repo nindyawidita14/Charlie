@@ -275,6 +275,60 @@
                     <h6 class="m-0 font-weight-bold text-primary">Infection treatment drug as % of all infection treatments</h6>
                   </div>
                   <div class="card-body">
+                    <!--Antibacterials -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antibacterials</span>
+                        <span>{{dashboard_data.percentage_card_data.Antibacterials}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antibacterials }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antibacterials }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antifungal -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antifungal</span>
+                        <span>{{dashboard_data.percentage_card_data.Antifungal}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antifungal }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antifungal }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antiviral -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antiviral</span>
+                        <span>{{dashboard_data.percentage_card_data.Antiviral}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antiviral }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antiviral }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antiprotozoal -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antiprotozoal</span>
+                        <span>{{dashboard_data.percentage_card_data.Antiprotozoal}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antiprotozoal }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antiprotozoal }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Anthelmintics -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Anthelmintics</span>
+                        <span>{{dashboard_data.percentage_card_data.Anthelmintics}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Anthelmintics }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Anthelmintics }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
