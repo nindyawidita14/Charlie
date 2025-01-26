@@ -29,7 +29,7 @@ class Database:
     
     def get_average_act_cost(self):
         """Return the average act cost of prescribed items"""
-        return int(db.session.execute(db.select(func.avg(PrescribingData.ACT_cost))).first()[0])
+        return round(db.session.execute(db.select(func.avg(PrescribingData.ACT_cost))).first()[0],2)
 
     def get_total_act_cost(self):
         """Return the total act cost of prescribed items"""
@@ -39,6 +39,11 @@ class Database:
         """Return the total items per PCT."""
         result = db.session.execute(db.select(func.sum(PrescribingData.items).label('item_sum')).group_by(PrescribingData.PCT)).all()
         return self.convert_tuple_list_to_raw(result)
+    
+    def get_number_unique_items(self):
+        """Get the number of unique items"""
+        return db.session.execute(db.select(func.count(PrescribingData.items.distinct()).label('number_unique_item'))).first()[0]
+    
 
     def get_distinct_pcts(self):
         """Return the distinct PCT codes."""

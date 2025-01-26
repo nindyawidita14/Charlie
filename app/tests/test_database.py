@@ -30,7 +30,12 @@ class DatabaseTests(unittest.TestCase):
     def test_get_average_act_cost(self):
         with app.app_context():
             """Test that the total number of items returns the correct value."""
-            self.assertEqual(self.db_mod.get_average_act_cost(), 76, 'Test total items returns correct value')
+            self.assertEqual(self.db_mod.get_average_act_cost(), 76.22, 'Test ACT cost returns correct value')
+    
+    def test_get_number_unique_items(self):
+        with app.app_context():
+            """Test that the total number of items returns the correct value."""
+            self.assertEqual(self.db_mod.get_number_unique_items(), 836, 'Test unique items returns correct value')
 
 if __name__ == "__main__":
     unittest.main()
