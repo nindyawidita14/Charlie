@@ -39,8 +39,8 @@ def home():
         "top_items_plot_data": generate_top_px_items_barchart_data(),
         "pct_list": pcts,
         "pct_data": selected_pct_data,
-        "search_value": search_list
-        
+        "search_value": search_list,
+        "percentage_card_data": generate_data_for_card()
     }
 
     db_mod.get_average_act_cost()
@@ -86,7 +86,6 @@ def generate_top_px_items_barchart_data():
     }
     return plot_data
 
-
 @views.route('/home/', methods=['GET', 'POST'])
 def search_list (q):
     users = User.query.get(q)
@@ -123,3 +122,14 @@ def search_list (q):
       #   return render_template('index.html' , search=results , legend="Search Result")
  # else:
         # return redirect('/')
+  
+def generate_data_for_card():
+    """Generate data for the percentage card"""
+    card_data = {
+        "Antibacterials": db_mod.get_percentage_of_Antibacterials(),
+        "Antifungal": db_mod.get_percentage_of_Antifungal(),
+        "Antiviral": db_mod.get_percentage_of_Antiviral(),
+        "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
+        "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
+    }
+    return card_data
