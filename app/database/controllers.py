@@ -77,7 +77,7 @@ class Database:
     
     def get_percentage_of_Antibacterials(self):
         """Return the percentage of Antibacterials in all infection drugs"""
-        count_0502 = db.session.execute(
+        count_0501 = db.session.execute(
             db.select(func.count(PrescribingData.BNF_code))
             .where(PrescribingData.BNF_code.like('0501%'))
         ).scalar()
@@ -87,13 +87,13 @@ class Database:
             .where(PrescribingData.BNF_code.like('05%')) 
         ).scalar()
 
-        percentage = (count_0502 / total_count * 100) if total_count > 0 else 0
+        percentage = (count_0501 / total_count * 100) if total_count > 0 else 0
 
         return round(percentage, 2)
     
     def get_percentage_of_Antifungal(self):
         """Return the percentage of Antifungal in all infection drugs"""
-        count_0501 = db.session.execute(
+        count_0502 = db.session.execute(
             db.select(func.count(PrescribingData.BNF_code))
             .where(PrescribingData.BNF_code.like('0502%'))
         ).scalar()
@@ -103,7 +103,7 @@ class Database:
             .where(PrescribingData.BNF_code.like('05%')) 
         ).scalar()
 
-        percentage = (count_0501 / total_count * 100) if total_count > 0 else 0
+        percentage = (count_0502 / total_count * 100) if total_count > 0 else 0
 
         return round(percentage, 2)
     
