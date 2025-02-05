@@ -25,6 +25,14 @@ db_mod = Database()
 def home():
     """Render the home page of the dashboard passing in data to populate dashboard."""
     pcts = db_mod.get_distinct_pcts()
+
+    selected_pct = pcts[0]
+
+    if request.method == 'POST':
+        # if selecting PCT for table, update based on user choice
+        form = request.form
+        selected_pct = form.get('pct-option', pcts[0])
+
     if request.method == 'POST':
         # if selecting PCT for table, update based on user choice
         form = request.form
@@ -40,11 +48,14 @@ def home():
         "pct_list": pcts,
         "pct_data": selected_pct_data,
         "search_value": search_list,
-        "percentage_card_data": generate_data_for_card()
+        "percentage_card_data": generate_data_for_card(),
+        "barchart_data": get_barchart_data(selected_pct)
     }
 
     db_mod.get_average_act_cost()
     db_mod.get_total_act_cost()
+
+    print(dashboard_data)  # 调试输出
     
     # render the HTML page passing in relevant data
     return render_template('dashboard/index.html',dashboard_data=dashboard_data)
@@ -85,6 +96,21 @@ def generate_top_px_items_barchart_data():
         'description': description
     }
     return plot_data
+
+def get_barchart_data(selected_pct):
+    """Render the view page of the dashboard passing in data to populate dashboard."""
+    pct_list = db_mod.get_pct_list()  # 获取PCT列表
+    """selected_pct = request.args.get('pct-option', pct_list[0])  # 获取选中的PCT"""
+    antibiotics_data = db_mod.get_antibiotics_data_for_selected_pct(selected_pct)
+    
+    barchart_data = {
+        'pct_list': pct_list,
+        'antibiotics_data': antibiotics_data,
+        'percentage_card_data': generate_data_for_card(),
+        # 其他数据
+    }
+    
+    return barchart_data
 
 @views.route('/home/', methods=['GET', 'POST'])
 def search_list (q):

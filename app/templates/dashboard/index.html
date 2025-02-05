@@ -358,9 +358,9 @@
             </div>
 
             <!-- Content Row -->
-            <div class="row last-row">
+            <div class="row">
 
-              <div class="col-xl-6">
+              <div class="col-xl-12">
                 <!-- Show the BNF data for slected PCT -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -400,6 +400,7 @@
               </div>
             </div>
           </div>
+
             <!-- Creatinine clearance calculator -->
             <div id="creat-calc">
               <div class="card">
@@ -432,6 +433,44 @@
                   </div>
                 </div>
             </div>
+
+<!-- PCT selection form -->
+<div class="row last-row">
+  <div class="col-xl-12">
+    <!-- Barchart about total number of prescribed antibiotics for each GP practice in a selected PCT-->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Total number of prescribed antibiotics for each GP practice in a selected PCT</h6>
+      </div>
+      <div class="card-body">
+        <form method='POST' action="{{ url_for('dashboard.home') }}">
+          <select class="custom-select" id="input-group-select" name="pct-option">
+            {% for item in dashboard_data.pct_list %}
+            <option name="option-list" value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+          </select>
+          <input type="submit" value="Update" class="btn btn-outline-secondary" />
+        </form>
+        <div id="chart2" class="chart" data-labels='{{ dashboard_data.barchart_data.antibiotics_data.labels | tojson }}' data-data='{{ dashboard_data.barchart_data.antibiotics_data.data | tojson }}'></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/barchart.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var pctData = {
+    labels: JSON.parse(document.getElementById('chart2').dataset.labels),
+    data: JSON.parse(document.getElementById('chart2').dataset.data)
+  };
+  var barChart = new BarChart();
+  barChart.drawChart(pctData, 'chart2');
+});
+</script>
+            
+
  <!-- Serch box drug by name or BNF CODE -->
 
             

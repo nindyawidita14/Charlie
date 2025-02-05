@@ -133,3 +133,31 @@ class Database:
     def get_n_data_for_PCT(self, pct, n):
         """Return all the data for a given PCT."""
         return db.session.query(PrescribingData).filter(PrescribingData.PCT == pct).limit(n).all()
+    
+    def get_pct_list(self):
+        """Retrieve unique practice_code values from PracticeData."""
+        results = db.session.query(PrescribingData.PCT).distinct().all()
+        pct_list = [row.PCT for row in results]
+        return pct_list
+
+    def get_antibiotics_data_for_selected_pct(self, pct):
+        """Return the total number of prescribed antibiotics for each GP practice in a selected PCT."""
+        results = db.session.query(
+            PracticeData.practice_name,
+            func.sum(PrescribingData.items).label('total_antibiotics')
+        ).join(
+            PrescribingData, PracticeData.practice_code == PrescribingData.practice
+        ).filter(
+            PrescribingData.PCT == pct,
+            PrescribingData.BNF_code.like('0501%')  # 假设抗生素的BNF代码以'0501'开头
+        ).group_by(
+            PracticeData.practice_name
+        ).all()
+        
+        labels = [row.practice_name for row in results]
+        data = [row.total_antibiotics for row in results]
+        
+        return {
+            'labels': labels,
+            'data': data
+        }
