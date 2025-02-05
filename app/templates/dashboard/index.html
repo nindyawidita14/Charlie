@@ -39,19 +39,22 @@
     </script>
   </head>
 
-  <body id="page-top">
+  <body id="dashboard-container">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+        
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
         <img id="uom-logo" src="{{url_for('static', filename='img/logo-uom.png') }}" />
+        <img id="ucl-logo" src="{{url_for('static', filename='img/logo-ucl.png') }}" />
         <br />
         <hr class="sidebar-divider my-0">
+        
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
           <div class="nav-link" onclick="popup.showAboutPopup();">
