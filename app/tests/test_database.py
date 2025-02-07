@@ -37,5 +37,30 @@ class DatabaseTests(unittest.TestCase):
             """Test that the total number of items returns the correct value."""
             self.assertEqual(self.db_mod.get_number_unique_items(), 836, 'Test unique items returns correct value')
 
+    def test_get_percentage_of_Antibacterials(self):
+        with app.app_context():
+            """Test the percentage of Antibacterials(0501) in infection drugs"""
+            self.assertEqual(self.db_mod.get_percentage_of_Antibacterials(), 78.32, 'Test unique items returns correct value')
+    
+    def test_get_percentage_of_Antifungal(self):
+        with app.app_context():
+            """Test the percentage of Antifungal(0502) in infection drugs"""
+            self.assertEqual(self.db_mod.get_percentage_of_Antifungal(), 9.44, 'Test unique items returns correct value')
+
+    def test_get_percentage_of_Antiviral(self):
+        with app.app_context():
+            """Test the percentage of anthelmintics(0503) in infection drugs"""
+            self.assertEqual(self.db_mod.get_percentage_of_Antiviral(), 6.19, 'Test unique items returns correct value')
+
+    def test_get_percentage_of_Antiprotozoal(self):
+        with app.app_context():
+            """Test the percentage of anthelmintics(0504) in infection drugs"""
+            self.assertEqual(self.db_mod.get_percentage_of_Antiprotozoal(), 4.83, 'Test unique items returns correct value')
+
+    def test_get_percentage_of_Anthelmintics(self):
+        with app.app_context():
+            """Test the percentage of anthelmintics(0505) in infection drugs"""
+            self.assertEqual(self.db_mod.get_percentage_of_Anthelmintics(), 1.22, 'Test unique items returns correct value')
+
 if __name__ == "__main__":
     unittest.main()
