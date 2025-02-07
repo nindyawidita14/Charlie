@@ -43,6 +43,13 @@ def home():
             selected_pct_2 = form.get('pct-option', pcts[0])
             barchart_data = get_barchart_data(str(selected_pct_2))
 
+        # Add percentage_card_data to the data structure
+    percentage_card_data = {
+        "Antiprotozoal": 50,  # Replace with actual data or calculation
+        "Antibacterials": 75,  # Replace with actual data or calculation
+        # Add other categories as needed
+    }
+
     # prepare data structure to send to front end to update display
     dashboard_data = {    
         "tile_data_items": generate_data_for_tiles(),  
@@ -63,6 +70,7 @@ def home():
     db_mod.get_total_act_cost()
 
     print(dashboard_data)  # 调试输出
+
     
     # render the HTML page passing in relevant data
     return render_template('dashboard/index.html',dashboard_data=dashboard_data)
@@ -73,13 +81,10 @@ def generate_data_for_tiles():
     tile_data = {
         "total_items": db_mod.get_total_number_items(),
         "avg_act_cost": db_mod.get_average_act_cost(),
-        "total_act_cost": db_mod.get_total_act_cost(),
         "top_px_item": None,
         "num_unique_items": db_mod.get_number_unique_items()
     }
     return tile_data
-
-
 
 def generate_top_px_items_barchart_data():
     """Generate the data needed to populate the number of most prescrbed items per PCT barchart."""
