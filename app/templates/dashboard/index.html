@@ -442,7 +442,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Total number of prescribed antibiotics for each GP practice in a selected PCT</h6>
                   </div>
                   <div class="card-body">
-                    <form method='POST' action="{{ url_for('dashboard.home') }}">
+                    <form method="POST" action="{{ url_for('dashboard.home') }}">
                       <input type="hidden" name="form-id" value="form2">
                       <select class="custom-select" id="input-group-select-2" name="pct-option">
                         {% for item in dashboard_data.pct_list %}
@@ -451,7 +451,7 @@
                       </select>
                       <input type="submit" value="Update" class="btn btn-outline-secondary">
                     </form>
-                    <canvas id="chart2" class="chart" data-labels='{{ dashboard_data.barchart_data.antibiotics_data.labels }}' data-data='{{ dashboard_data.barchart_data.antibiotics_data.data }}' width="10" height="10"></canvas> <!-- 设置固定宽度和高度 -->
+                    <canvas id="chart2" class="chart" data-labels='{{ dashboard_data.barchart_data.antibiotics_data.labels }}' data-data='{{ dashboard_data.barchart_data.antibiotics_data.data }}' width="800" height="400"></canvas> <!-- 设置固定宽度和高度 -->
                   </div>
                 </div>
               </div>

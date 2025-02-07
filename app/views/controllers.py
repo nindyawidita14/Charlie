@@ -25,9 +25,10 @@ db_mod = Database()
 def home():
     """Render the home page of the dashboard passing in data to populate dashboard."""
     pcts = db_mod.get_distinct_pcts()
-    selected_pct = pcts[0]  # 默认选择第一个PCT
-    selected_pct_data = db_mod.get_n_data_for_PCT(str(selected_pct), 5)
-    barchart_data = get_barchart_data(str(selected_pct))
+    selected_pct_1 = pcts[0]  # 默认选择第一个PCT
+    selected_pct_2 = pcts[0]
+    selected_pct_data = db_mod.get_n_data_for_PCT(str(selected_pct_1), 5)
+    barchart_data = get_barchart_data(str(selected_pct_2))
 
     if request.method == 'POST':
         form = request.form
@@ -35,12 +36,12 @@ def home():
 
         if form_id == 'form1':
             # 处理表单1的数据
-            selected_pct = form.get('pct-option', pcts[0])
-            selected_pct_data = db_mod.get_n_data_for_PCT(str(selected_pct), 5)
+            selected_pct_1 = form.get('pct-option', pcts[0])
+            selected_pct_data = db_mod.get_n_data_for_PCT(str(selected_pct_1), 5)
         elif form_id == 'form2':
             # 处理表单2的数据
-            selected_pct = form.get('pct-option', pcts[0])
-            barchart_data = get_barchart_data(str(selected_pct))
+            selected_pct_2 = form.get('pct-option', pcts[0])
+            barchart_data = get_barchart_data(str(selected_pct_2))
 
     # prepare data structure to send to front end to update display
     dashboard_data = {    
@@ -65,6 +66,7 @@ def home():
     
     # render the HTML page passing in relevant data
     return render_template('dashboard/index.html',dashboard_data=dashboard_data)
+
 
 def generate_data_for_tiles():
     """Generate the data for the four home page tiles."""
