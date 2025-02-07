@@ -2,6 +2,11 @@
 #uom-logo, #ucl-logo {
     padding: 20px;
     width: 100%;
+  
+/* Sidebar Theme */
+.bg-gradient-info {
+    background: linear-gradient(to right, #6C3082, #000000); /* Deep red to purple */
+    color: #fff; /* White text for contrast */
 }
 
 /* Sidebar Theme */

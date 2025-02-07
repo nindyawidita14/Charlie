@@ -215,7 +215,7 @@
                         title="This is the total amount spend in drugs cost.">
                         </i>
                         <!-- Add tooltip here -->
-                        </div>
+                      </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">£{{ dashboard_data.tile_data_items.total_act_cost }}</div>
                       </div>
                       <div class="col-auto">
@@ -370,9 +370,9 @@
             </div>
 
             <!-- Content Row -->
-            <div class="row last-row">
+            <div class="row">
 
-              <div class="col-xl-6">
+              <div class="col-xl-12">
                 <!-- Show the BNF data for slected PCT -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
@@ -380,6 +380,7 @@
                   </div>
                   <div class="card-body">
                       <form method='POST' action="{{ url_for('dashboard.home') }}">
+                        <input type="hidden" name="form-id" value="form1">
                         <select class="custom-select" id="input-group-select" name="pct-option">
                           {% for item in dashboard_data.pct_list %}
                           <option name="option-list" value="{{ item }}">{{ item }}</option>
@@ -412,6 +413,7 @@
               </div>
             </div>
           </div>
+
             <!-- Creatinine clearance calculator -->
             <div id="creat-calc">
               <div class="card">
@@ -444,6 +446,49 @@
                   </div>
                 </div>
             </div>
+
+            <div class="row last-row">
+              <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Total number of prescribed antibiotics for each GP practice in a selected PCT</h6>
+                  </div>
+                  <div class="card-body">
+                    <form method="POST" action="{{ url_for('dashboard.home') }}">
+                      <input type="hidden" name="form-id" value="form2">
+                      <select class="custom-select" id="input-group-select-2" name="pct-option">
+                        {% for item in dashboard_data.pct_list %}
+                        <option name="option-list" value="{{ item }}">{{ item }}</option>
+                        {% endfor %}
+                      </select>
+                      <input type="submit" value="Update" class="btn btn-outline-secondary">
+                    </form>
+                    <canvas id="chart2" class="chart" data-labels='{{ dashboard_data.barchart_data.antibiotics_data.labels }}' data-data='{{ dashboard_data.barchart_data.antibiotics_data.data }}' width="800" height="400"></canvas> <!-- 设置固定宽度和高度 -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ url_for('static', filename='js/barchart.js') }}"></script>
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              var chartElement = document.getElementById('chart2');
+              try {
+                var pctData = {
+                  labels: JSON.parse(chartElement.dataset.labels),
+                  data: JSON.parse(chartElement.dataset.data)
+                };
+                console.log('pctData:', pctData); // 打印 pctData
+                var barChart = new BarChart();
+                barChart.drawChart(pctData, 'chart2');
+              } catch (e) {
+                console.error('Error parsing JSON:', e);
+                console.log('chartElement.dataset.labels:', chartElement.dataset.labels);
+                console.log('chartElement.dataset.data:', chartElement.dataset.data);
+              }
+            });
+            </script>
  <!-- Serch box drug by name or BNF CODE -->
 
             
