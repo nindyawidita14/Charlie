@@ -33,12 +33,20 @@ def home():
         # pick a default PCT to show
         selected_pct_data = db_mod.get_n_data_for_PCT(str(pcts[0]), 5)
 
+        # Add percentage_card_data to the data structure
+    percentage_card_data = {
+        "Antiprotozoal": 50,  # Replace with actual data or calculation
+        "Antibacterials": 75,  # Replace with actual data or calculation
+        # Add other categories as needed
+    }
+
     # prepare data structure to send to front end to update display
     dashboard_data = {    
         "tile_data_items": generate_data_for_tiles(),  
         "top_items_plot_data": generate_top_px_items_barchart_data(),
         "pct_list": pcts,
-        "pct_data": selected_pct_data
+        "pct_data": selected_pct_data,
+        "percentage_card_data": percentage_card_data
     }
 
     db_mod.get_average_act_cost()
@@ -79,4 +87,3 @@ def generate_top_px_items_barchart_data():
         'description': description
     }
     return plot_data
-

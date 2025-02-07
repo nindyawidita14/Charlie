@@ -13,6 +13,7 @@ function Popup()
     popup.mask = document.getElementById("page-mask");
     popup.entryFormPopup = document.getElementById("creat-calc");
     popup.aboutPopup = document.getElementById("about-box");
+    popup.SearchPopup = document.getElementById("search-box");
 
     // display the popup mask
     popup.showMask = function()
@@ -41,6 +42,22 @@ function Popup()
     {
         this.hideMask();
         this.entryFormPopup.style.display = "none";
+    }
+
+    //show the search box dialog
+    popup.showSearchPopup = function()
+    {
+        this.showMask();
+        this.SearchPopup.style.display = "block";
+        this.positionDialogue(this.SearchPopup);
+        //this.SearchPopup.style.left = (($(document).width() / 2) - (this.SearchPopup.offsetWidth / 2)) + "px";
+    }
+
+    // hide the search box dialog
+    popup.hideSearchPopup = function()
+    {
+        this.hideMask();
+        this.SearchPopup.style.display = "none";
     }
 
     // show the about popup

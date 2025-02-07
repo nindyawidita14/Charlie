@@ -39,19 +39,22 @@
     </script>
   </head>
 
-  <body id="page-top">
+  <body id="dashboard-container">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
+        
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
         <img id="uom-logo" src="{{url_for('static', filename='img/logo-uom.png') }}" />
+        <img id="ucl-logo" src="{{url_for('static', filename='img/logo-ucl.png') }}" />
         <br />
         <hr class="sidebar-divider my-0">
+        
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
           <div class="nav-link" onclick="popup.showAboutPopup();">
@@ -72,6 +75,14 @@
           <div class="nav-link" onclick="popup.showCeatCalcFormPopup();">
             <i class="fas fa-calculator"></i>
             <span>Creatinine clearance</span>
+          </div>
+        </li>
+
+         <!-- Search box for drug and BNF code - Utilities Collapse Menu -->
+         <li class="nav-item">
+          <div class="nav-link" onclick="popup.showSearchPopup();">
+            <i class="fas fa-search"></i>
+            <span>Search For Drug</span>
           </div>
         </li>
 
@@ -144,7 +155,16 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total items:</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total items:
+                          <!-- Add tooltip here -->
+                          <i 
+                          class="fas fa-info-circle" 
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="This is the total number of prescribed items dispensed.">
+                          </i> 
+                          <!-- Add tooltip here -->
+                        </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.total_items }}</div>
                       </div>
                       <div class="col-auto">
@@ -161,7 +181,16 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Average ACT cost:</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Average ACT cost:
+                          <!-- Add tooltip here -->
+                          <i 
+                          class="fas fa-info-circle" 
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="This is the average actual cost of the prescribed items.">
+                          </i>
+                          <!-- Add tooltip here -->
+                        </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">£{{ dashboard_data.tile_data_items.avg_act_cost }}</div>
                       </div>
                       <div class="col-auto">
@@ -171,14 +200,47 @@
                   </div>
                 </div>
               </div>
-
+             <!-- Summary of the total spend in drugs cost tile -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total drug spend:
+                        <!-- Add tooltip here -->
+                        <i 
+                        class="fas fa-info-circle" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="This is the total amount spend in drugs cost.">
+                        </i>
+                        <!-- Add tooltip here -->
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">£{{ dashboard_data.tile_data_items.total_act_cost }}</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-pound-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- Top prescribed items tile -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOP PRESCRIBED ITEM:</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOP PRESCRIBED ITEM:
+                          <!-- Add tooltip here -->
+                          <i 
+                          class="fas fa-info-circle" 
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="This is the number of top prescribed items.">
+                          </i>
+                          <!-- Add tooltip here -->
+                        </div>
                         <span class="text_col_black"></span>
                         <div class="row no-gutters align-items-center">
                           <div class="col-auto">
@@ -205,7 +267,16 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">NUMBER OF UNIQUE ITEMS:</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">NUMBER OF UNIQUE ITEMS:
+                          <!-- Add tooltip here -->
+                          <i 
+                          class="fas fa-info-circle" 
+                          data-toggle="tooltip" 
+                          data-placement="top" 
+                          title="This is the number of unique prescribed items.">
+                          </i>
+                          <!-- Add tooltip here -->
+                        </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{dashboard_data.tile_data_items.num_unique_items}}</div>
                       </div>
                       <div class="col-auto">
@@ -239,6 +310,60 @@
                     <h6 class="m-0 font-weight-bold text-primary">Infection treatment drug as % of all infection treatments</h6>
                   </div>
                   <div class="card-body">
+                    <!--Antibacterials -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antibacterials</span>
+                        <span>{{dashboard_data.percentage_card_data.Antibacterials}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antibacterials }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antibacterials }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antifungal -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antifungal</span>
+                        <span>{{dashboard_data.percentage_card_data.Antifungal}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antifungal }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antifungal }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antiviral -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antiviral</span>
+                        <span>{{dashboard_data.percentage_card_data.Antiviral}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antiviral }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antiviral }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Antiprotozoal -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Antiprotozoal</span>
+                        <span>{{dashboard_data.percentage_card_data.Antiprotozoal}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Antiprotozoal }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Antiprotozoal }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+
+                    <!--Anthelmintics -->
+                    <div class="mb-3">
+                      <div class="d-flex justify-content-between">
+                        <span>Anthelmintics</span>
+                        <span>{{dashboard_data.percentage_card_data.Anthelmintics}}%</span>
+                      </div>
+                      <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ dashboard_data.percentage_card_data.Anthelmintics }}%;" aria-valuenow="{{ dashboard_data.percentage_card_data.Anthelmintics }}"  aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -287,7 +412,6 @@
               </div>
             </div>
           </div>
-          
             <!-- Creatinine clearance calculator -->
             <div id="creat-calc">
               <div class="card">
@@ -320,13 +444,52 @@
                   </div>
                 </div>
             </div>
+ <!-- Serch box drug by name or BNF CODE -->
 
+            
+
+             </form>
+
+ <div id="search-box">
+  <div class="card">
+      <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">SEARCH FOR DRUG BY BNF NAME OR BNF CODE</h6>
+    </div>
+        <selection class="selection">
+          <div class="columns">
+          <input type="text" class="input" placeholder= "SEARCH HERE" name="q" hx-get="/search" hx-trigger="keyup changeddelay:500ms">
+          <input type="submit" value="Search" class="btn btn-outline-secondary" />
+     </div>
+        <table class="table is-fullwidth">
+        <thead>
+          <td>BNF code</td>
+          <td>BNF name</td>
+          <td>NIC</td>
+          <td>ACT Cost</td>
+        </thead>
+          <tbody>
+           {% for row in dashboard_data.search %}
+            <tr>
+              <td>{{ row.BNF_code }}</td>
+              <td>{{ row.BNF_name }}</td>
+              <td>{{ row.NIC }}</td>
+              <td>{{ row.ACT_cost }}</td>
+            </tr>
+          {% endfor %}
+          </tbody id="results">
+        </table>
+        <button type="button" class="btn btn-danger" onclick="popup.hideSearchPopup();">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div> 
             <!-- About popup -->
             <div id="about-box">
               <div class="card">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">About abcwdawa the prescribing dashboard</h6>
-                  </div>
+                    <h6 class="m-0 font-weight-bold text-primary">About the prescribing dashboard</h6></div>
                   <div class="card-body">
                     <p>Welcome to the Integrated Care Board (ICB) Resource Management Dashboard. This platform is designed to support informed decision-making by providing insights into drug costs and resource allocation across GP practices. Contact the support team @+441234567899 or email support@icb.net</p>
                     <br />
