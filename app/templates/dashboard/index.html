@@ -50,8 +50,10 @@
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
         <img id="uom-logo" src="{{url_for('static', filename='img/logo-uom.png') }}" />
+        <img id="ucl-logo" src="{{url_for('static', filename='img/logo-ucl.png') }}" />
         <br />
         <hr class="sidebar-divider my-0">
+        
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
           <div class="nav-link" onclick="popup.showAboutPopup();">
@@ -203,7 +205,16 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total drug spend:</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total drug spend:
+                        <!-- Add tooltip here -->
+                        <i 
+                        class="fas fa-info-circle" 
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="This is the total amount spend in drugs cost.">
+                        </i>
+                        <!-- Add tooltip here -->
+                      </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">£{{ dashboard_data.tile_data_items.total_act_cost }}</div>
                       </div>
                       <div class="col-auto">
