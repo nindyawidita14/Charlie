@@ -1,0 +1,8 @@
+{% for result in results %}
+<tr>
+  <td>{{ result.PrescribingData.BNF_code }}</td>
+  <td>{{ result.PrescribingData.BNF_name }}</td>
+  <td>{{ result.PrescribingData.NIC }}</td>
+  <td>{{ result.PrescribingData.ACT_cost }}</td>
+</tr>
+{% endfor %}

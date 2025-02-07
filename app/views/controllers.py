@@ -32,14 +32,13 @@ def home():
     else:
         # pick a default PCT to show
         selected_pct_data = db_mod.get_n_data_for_PCT(str(pcts[0]), 5)
-
+        
     # prepare data structure to send to front end to update display
     dashboard_data = {    
         "tile_data_items": generate_data_for_tiles(),  
         "top_items_plot_data": generate_top_px_items_barchart_data(),
         "pct_list": pcts,
         "pct_data": selected_pct_data,
-        "search_value": search_list,
         "percentage_card_data": generate_data_for_card()
     }
 
@@ -59,7 +58,6 @@ def generate_data_for_tiles():
         "num_unique_items": db_mod.get_number_unique_items()
     }
     return tile_data
-
 
 
 def generate_top_px_items_barchart_data():
@@ -86,43 +84,7 @@ def generate_top_px_items_barchart_data():
     }
     return plot_data
 
-@views.route('/home/', methods=['GET', 'POST'])
-def search_list (q):
-    users = User.query.get(q)
-    if request.method == 'POST':        
-        BNF_code = request.form['BNF code']
-        BNF_name = request.form['BNF name']
-        PNIC = request.form['NIC']
-        ACT_cost = request.form['ACT Cost']
-        db.session.add(PrescribingData)
-        db.session.commit()
-        flash ('Edited')
-        return  redirect(url_for('dashboard'))
-    return render_template('index.html', results=results, q=q)
-# Shearch
-#@views.route('/')
-#def search_list():
-    #q = request.args.get("q")
-    #print (q)
-
-    #if q:
-       #results = PrescribingData.query.filter(PrescribingData.BNF_code.contains(q) | PrescribingData.BNF_name.contains(q)) 
-   # else:
-     #  results = []
-
-   # return render_template("results/search.results.html", results=results)
-
-# @views.route('/search/', methods=['GET', 'POST'])
-# def search():
- # if request.method == 'POST':
-       #  form = request.form
-       #  search_value = form['search_string']
-       #  search = "%{0}%".format(search_value)
-       #  results = PrescribingData.query.filter(Database_(PrescribingData.BNF_code.like(search),PrescribingData.BNF_name.like(search))).all()
-      #   return render_template('index.html' , search=results , legend="Search Result")
- # else:
-        # return redirect('/')
-  
+ 
 def generate_data_for_card():
     """Generate data for the percentage card"""
     card_data = {
@@ -132,4 +94,7 @@ def generate_data_for_card():
         "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
         "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
     }
-    return card_data
+
+
+
+

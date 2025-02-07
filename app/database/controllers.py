@@ -113,7 +113,7 @@ class Database:
 
     def get_total_act_cost(self):
         """Return the total act cost of prescribed items"""
-        return int(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0])        
+        return round(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0],2)        
     
     def get_prescribed_items_per_pct(self):
         """Return the total items per PCT."""
@@ -133,3 +133,12 @@ class Database:
     def get_n_data_for_PCT(self, pct, n):
         """Return all the data for a given PCT."""
         return db.session.query(PrescribingData).filter(PrescribingData.PCT == pct).limit(n).all()
+
+    def get_n_data_for_BNF(self):
+        """Return all the data for a given BNF Code/Name."""
+        return db.session.query(PrescribingData.BNF_code.label("BNF_code"),
+                                PrescribingData.BNF_name.label("BNF_name"),
+                                func.count(PrescribingData.practice).label("BNF_total_practice"),
+                                func.sum(PrescribingData.items).label("BNF_total_item"),
+                                (func.sum(PrescribingData.ACT_cost * PrescribingData.items) / func.sum(PrescribingData.items)).label("BNF_average_cost")).group_by(PrescribingData.BNF_code).all()
+

@@ -30,4 +30,3 @@ from app.database.controllers import database as database_module
 
 app.register_blueprint(views_module)
 app.register_blueprint(database_module)
-
