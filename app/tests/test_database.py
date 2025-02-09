@@ -11,6 +11,7 @@ DESCRIPTION:   Suite of tests for testing the dashboards database
 import unittest
 from app import app
 from app.database.controllers import Database
+from unittest.mock import patch
 
 class DatabaseTests(unittest.TestCase):
     """Class for testing database functionality and connection."""
@@ -61,6 +62,24 @@ class DatabaseTests(unittest.TestCase):
         with app.app_context():
             """Test the percentage of anthelmintics(0505) in infection drugs"""
             self.assertEqual(self.db_mod.get_percentage_of_Anthelmintics(), 1.22, 'Test unique items returns correct value')
+
+    @patch('app.database.controllers.db.session.query')
+    def test_get_top_prescribed_item_with_percentage(self, mock_query):
+         with app.app_context():
+            # Mock the query results
+            mock_query.return_value.group_by.return_value.order_by.return_value.limit.return_value.first.return_value = (
+            'Omeprazole_Cap E/C 20mg', 226307
+        )
+            mock_query.return_value.scalar.return_value = 8218165  # Total items
+
+            # Call the method
+            result = self.db_mod.get_top_prescribed_item_with_percentage()
+
+            # Verify the result
+            self.assertEqual(result['top_item_name'], 'Omeprazole_Cap E/C 20mg')
+            self.assertEqual(result['top_item_count'], 226307)
+            self.assertAlmostEqual(result['percentage'], 2.75, places=2)
+
 
 if __name__ == "__main__":
     unittest.main()
