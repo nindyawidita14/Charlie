@@ -12,8 +12,10 @@ import json
 import plotly
 import plotly.express as px
 import pandas as pd
-from flask import Blueprint, render_template, request,jsonify
+from flask import Blueprint, render_template, request, Response
 from app.database.controllers import Database
+from reportlab.pdfgen import canvas
+from app import app
 
 views = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -160,6 +162,22 @@ def search_list (q):
       #   return render_template('index.html' , search=results , legend="Search Result")
  # else:
         # return redirect('/')
+
+@app.route('/generate_report', methods=['GET'])
+def generate_report():
+    pdf_buffer = BytesIO()
+    c = canvas.Canvas(pdf_buffer)
+    
+    c.drawString(100, 750, "Dashboard Report")
+    c.drawString(100, 730, "This is a sample report for the dashboard.")
+    
+    c.showPage()
+    c.save()
+
+    pdf_buffer.seek(0)
+    return Response(pdf_buffer, mimetype='application/pdf',
+                    headers={'Content-Disposition': 'inline; filename=dashboard_report.pdf'})
+
   
 def generate_data_for_card():
     """Generate data for the percentage card"""

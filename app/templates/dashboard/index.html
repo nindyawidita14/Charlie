@@ -87,6 +87,15 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Generate Report Button -->
+        <li class="nav-item">
+          <div class="nav-link" onclick="generateReport();">
+              <i class="fas fa-file-pdf"></i>
+              <span>Generate Report</span>
+          </div>
+        </li>
+
       </ul>
       <!-- End of Sidebar -->
 
@@ -243,12 +252,8 @@
                                 </div>
                                 <!-- Display the top prescribed item name -->
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.top_px_item }}</div>
-                                <!-- Display the top item count -->
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Item Count:
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.top_px_item_count }}</div>
-                                </div>
                                 <!-- Display the percentage of total items -->
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Percentage of Total Items:
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.top_px_item_percentage }}%</div>
                                 </div>
                                 <!-- Progress bar to visually represent the percentage -->
@@ -585,6 +590,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <script>
+      function generateReport() {
+          window.location.href = "/generate-report";  // Redirect to the Flask route (to be implemented in Step 2)
+      }
+    </script>
 
   </body>
 </html>
