@@ -13,7 +13,7 @@ function Popup()
     popup.mask = document.getElementById("page-mask");
     popup.entryFormPopup = document.getElementById("creat-calc");
     popup.aboutPopup = document.getElementById("about-box");
-    popup.SearchPopup = document.getElementById("search-box");
+    popup.BMIFormPopup = document.getElementById("BMI-calc");
 
     // display the popup mask
     popup.showMask = function()
@@ -44,20 +44,21 @@ function Popup()
         this.entryFormPopup.style.display = "none";
     }
 
-    //show the search box dialog
-    popup.showSearchPopup = function()
-    {
-        this.showMask();
-        this.SearchPopup.style.display = "block";
-        this.positionDialogue(this.SearchPopup);
-        //this.SearchPopup.style.left = (($(document).width() / 2) - (this.SearchPopup.offsetWidth / 2)) + "px";
-    }
+     //show the BMI calculator form dialog
+     popup.showBMICalcFormPopup = function()
+     {
+         this.showMask();
+         this.BMIFormPopup.style.display = "block";
+         this.positionDialogue(this.BMIFormPopup);
+         //this.entryFormPopup.style.left = (($(document).width() / 2) - (this.entryFormPopup.offsetWidth / 2)) + "px";
+     }
+ 
+     // hide the BMI calculator form dialog
+     popup.hideBMICalcFormPopup = function()
+     {
+         this.hideMask();
+         this.BMIFormPopup.style.display = "none";
 
-    // hide the search box dialog
-    popup.hideSearchPopup = function()
-    {
-        this.hideMask();
-        this.SearchPopup.style.display = "none";
     }
 
     // show the about popup

@@ -152,7 +152,7 @@ class Database:
 
     def get_total_act_cost(self):
         """Return the total act cost of prescribed items"""
-        return int(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0])        
+        return round(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0],2)        
     
     def get_prescribed_items_per_pct(self):
         """Return the total items per PCT."""

@@ -14,7 +14,6 @@ import plotly.express as px
 import pandas as pd
 from flask import Blueprint, render_template, request, Response
 from app.database.controllers import Database
-from reportlab.pdfgen import canvas
 from app import app
 
 views = Blueprint('dashboard', __name__, url_prefix='/dashboard')
@@ -86,7 +85,6 @@ def generate_data_for_tiles():
     }
 
     return tile_data
-
 
 
 def generate_top_px_items_barchart_data():
@@ -188,4 +186,7 @@ def generate_data_for_card():
         "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
         "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
     }
-    return card_data
+
+
+
+
