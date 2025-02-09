@@ -90,10 +90,10 @@
 
         <!-- Generate Report Button -->
         <li class="nav-item">
-          <div class="nav-link" onclick="generateReport();">
+          <a class="nav-link" onclick="generateReport();">
               <i class="fas fa-file-pdf"></i>
               <span>Generate Report</span>
-          </div>
+          </a>
         </li>
 
       </ul>
@@ -593,7 +593,7 @@
 
     <script>
       function generateReport() {
-          window.location.href = "/generate-report";  // Redirect to the Flask route (to be implemented in Step 2)
+          window.location.href = "{{ url_for('generate_report') }}";  // Use Flask's url_for to generate the correct URL
       }
     </script>
 

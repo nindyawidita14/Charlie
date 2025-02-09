@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .data-item {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Dashboard Report</div>
+    <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="data-item">Total Items: {{ data.total_items }}</div>
+        <div class="data-item">Average ACT Cost: £{{ data.avg_act_cost }}</div>
+        <div class="data-item">Total Drug Spend: £{{ data.total_act_cost }}</div>
+        <div class="data-item">Top Prescribed Item: {{ data.top_item_name }}</div>
+        <div class="data-item">Unique Items: {{ data.num_unique_items }}</div>
+    </div>
+
+    <!-- Add more sections as needed -->
+</body>
+</html>

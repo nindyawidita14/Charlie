@@ -15,7 +15,11 @@ import pandas as pd
 from flask import Blueprint, render_template, request, Response
 from app.database.controllers import Database
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import inch
 from app import app
+from io import BytesIO
+from xhtml2pdf import pisa
 
 views = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -163,20 +167,38 @@ def search_list (q):
  # else:
         # return redirect('/')
 
+# Generate a report
+from io import BytesIO
+from flask import render_template, Response
+from xhtml2pdf import pisa
+
 @app.route('/generate_report', methods=['GET'])
 def generate_report():
+
+    # Render the HTML template
+    rendered_html = render_template('dashboard/report_template.html', data=generate_data_for_report())
+
+    # Convert HTML to PDF
     pdf_buffer = BytesIO()
-    c = canvas.Canvas(pdf_buffer)
-    
-    c.drawString(100, 750, "Dashboard Report")
-    c.drawString(100, 730, "This is a sample report for the dashboard.")
-    
-    c.showPage()
-    c.save()
+    pisa_status = pisa.CreatePDF(BytesIO(rendered_html.encode('utf-8')), dest=pdf_buffer)
+
+    if pisa_status.err:
+        return "Error generating PDF", 500
 
     pdf_buffer.seek(0)
     return Response(pdf_buffer, mimetype='application/pdf',
                     headers={'Content-Disposition': 'inline; filename=dashboard_report.pdf'})
+
+def generate_data_for_report():
+    # Gather the data needed for the report
+    return {
+        "total_items": db_mod.get_total_number_items(),
+        "avg_act_cost": db_mod.get_average_act_cost(),
+        "total_act_cost": db_mod.get_total_act_cost(),
+        "top_item_name": db_mod.get_top_prescribed_item_with_percentage()["top_item_name"],
+        "num_unique_items": db_mod.get_number_unique_items(),
+        # Add more data as needed
+    }
 
   
 def generate_data_for_card():
