@@ -186,6 +186,8 @@ def generate_data_for_card():
         "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
         "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
     }
+    print("Card Data:", card_data)  # Debug print
+    return card_data
 
 
 
