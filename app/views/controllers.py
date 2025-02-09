@@ -70,13 +70,19 @@ def home():
 
 def generate_data_for_tiles():
     """Generate the data for the four home page tiles."""
+
+    # Get the top prescribed item and its percentage
+    top_item_data = db_mod.get_top_prescribed_item_with_percentage()
     tile_data = {
         "total_items": db_mod.get_total_number_items(),
         "avg_act_cost": db_mod.get_average_act_cost(),
         "total_act_cost": db_mod.get_total_act_cost(),
-        "top_px_item": None,
+        "top_px_item": top_item_data["top_item_name"],
+        "top_px_item_count": top_item_data["top_item_count"],
+        "top_px_item_percentage": top_item_data["percentage"],
         "num_unique_items": db_mod.get_number_unique_items()
     }
+
     return tile_data
 
 
