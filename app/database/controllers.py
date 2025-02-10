@@ -27,6 +27,45 @@ class Database:
         """Return the total number of prescribed items."""
         return int(db.session.execute(db.select(func.sum(PrescribingData.items))).first()[0])
     
+    def get_top_prescribed_item_with_percentage(self):
+        """Get the top prescribed item and its percentage of all items."""
+         # Query to get the top prescribed item
+        top_item_query = db.session.query(
+            PrescribingData.BNF_name,
+            func.sum(PrescribingData.items).label('total_items')
+        ).group_by(
+            PrescribingData.BNF_name
+        ).order_by(
+            func.sum(PrescribingData.items).desc()
+        ).limit(1).first()
+
+        if top_item_query:
+            top_item_name = top_item_query[0]
+            top_item_count = top_item_query[1]
+
+            # Query to get the total number of items
+            total_items_query = db.session.query(
+                func.sum(PrescribingData.items)
+            ).scalar()
+
+            # Calculate the percentage
+            if total_items_query and total_items_query > 0:
+                percentage = (top_item_count / total_items_query) * 100
+            else:
+                percentage = 0
+            return {
+                "top_item_name": top_item_name,
+                "top_item_count": top_item_count,
+                "percentage": round(percentage, 2)  # Round to 2 decimal places
+            }
+        
+        else:
+            return {
+                "top_item_name": "N/A",
+                "top_item_count": 0,
+                "percentage": 0
+            }
+    
     def get_percentage_of_Anthelmintics(self):
         """Return the percentage of Anthelmintics in all infection drugs"""
         count_0505 = db.session.execute(
@@ -113,7 +152,7 @@ class Database:
 
     def get_total_act_cost(self):
         """Return the total act cost of prescribed items"""
-        return int(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0])        
+        return round(db.session.execute(db.select(func.sum(PrescribingData.ACT_cost * PrescribingData.items))).first()[0],2)        
     
     def get_prescribed_items_per_pct(self):
         """Return the total items per PCT."""

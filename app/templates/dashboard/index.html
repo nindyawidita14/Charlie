@@ -68,25 +68,31 @@
         <div class="sidebar-heading">
           Main menu:
         </div>
-
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
           <div class="nav-link" onclick="popup.showCeatCalcFormPopup();">
             <i class="fas fa-calculator"></i>
-            <span>Creatinine clearance</span>
+            <span>Creatinine Clearance</span>
           </div>
         </li>
-
-         <!-- Search box for drug and BNF code - Utilities Collapse Menu -->
+         <!-- BMI Calc Menu -->
          <li class="nav-item">
-          <div class="nav-link" onclick="popup.showSearchPopup();">
-            <i class="fas fa-search"></i>
-            <span>Search For Drug</span>
+          <div class="nav-link" onclick="popup.showBMICalcFormPopup();">
+               <i class="fas fa-calculator"></i>
+            <span>BMI Calculator</span>
           </div>
         </li>
-
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Generate Report Button -->
+        <li class="nav-item">
+          <div class="nav-link" onclick="generateReport();">
+              <i class="fas fa-file-pdf"></i>
+              <span>Generate Report</span>
+          </div>
+        </li>
+
       </ul>
       <!-- End of Sidebar -->
 
@@ -147,7 +153,6 @@
 
             <!-- Content Row -->
             <div class="row">
-
               <!-- Total items tile -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -224,41 +229,47 @@
                   </div>
                 </div>
               </div>
+
               <!-- Top prescribed items tile -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOP PRESCRIBED ITEM:
-                          <!-- Add tooltip here -->
-                          <i 
-                          class="fas fa-info-circle" 
-                          data-toggle="tooltip" 
-                          data-placement="top" 
-                          title="This is the number of top prescribed items.">
-                          </i>
-                          <!-- Add tooltip here -->
-                        </div>
-                        <span class="text_col_black"></span>
+                    <div class="card-body">
                         <div class="row no-gutters align-items-center">
-                          <div class="col-auto">
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">%</div>
-                          </div>
-                          <div class="col">
-                            <div class="progress progress-sm mr-2">
-                              <div class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOP PRESCRIBED ITEM:
+                                    <!-- Add tooltip here -->
+                                    <i 
+                                    class="fas fa-info-circle" 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                    title="This is the top prescribed item, its count, and its percentage of all items.">
+                                    </i>
+                                    <!-- Add tooltip here -->
+                                </div>
+                                <!-- Display the top prescribed item name -->
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.top_px_item }}</div>
+                                <!-- Display the percentage of total items -->
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ dashboard_data.tile_data_items.top_px_item_percentage }}%</div>
+                                </div>
+                                <!-- Progress bar to visually represent the percentage -->
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar" 
+                                        style="width: {{ dashboard_data.tile_data_items.top_px_item_percentage }}%" 
+                                        aria-valuenow="{{ dashboard_data.tile_data_items.top_px_item_percentage }}" 
+                                        aria-valuemin="0" 
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
                             </div>
-                          </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
                         </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
+
 
               <!-- Unique items tile -->
               <div class="col-xl-3 col-md-6 mb-4">
@@ -413,38 +424,50 @@
             </div>
           </div>
 
-            <!-- Creatinine clearance calculator -->
-            <div id="creat-calc">
-              <div class="card">
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Creatinine clearance calculator</h6>
-                  </div>
-                  <div class="card-body">
-                    <p>Sex of patient:</p>
-                    <div>
-                      <label class="radio-inline">
-                        <input type="radio" name="sex" value="m"> Male
-                      </label>
-                      <label class="radio-inline">
-                        <input type="radio" name="sex" value="f"> Female
-                      </label>
-                      <p>Age of patient (years):</p>
-                      <input type="number" min="1" max="120" name="patients-age" />
-                      <br /><br />
-                      <p>Weight of patient (kg):</p>
-                      <input type="number" min="1" max="120" name="patients-weight" />
-                      <br /><br />
-                      <p>Serum creatinine (micromol/L):</p>
-                      <input type="number" min="1" max="120" name="patients-serum" />
-                      <br />
-                    </div>
-                    <br />
-                    <hr />
-                    <button type="button" class="btn btn-primary">Calculate</button>
-                    <button type="button" class="btn btn-danger" onclick="popup.hideCeatCalcFormPopup();">Close</button>
-                  </div>
-                </div>
+        <!-- Creatinine clearance calculator -->
+        <div id="creat-calc">
+          <div class="card">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Creatinine Clearance Calculator</h6>
             </div>
+            <div class="card-body">
+              <p>Sex of patient:</p>
+              <div>
+                <label class="radio-inline">
+                  <select id="sex" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                <br /><br />
+                <p>Age of patient (years):</p>
+                <input type="number" min="1" max="100" name="age" id="age" onclick="modcal();" required/>
+                <br /><br />
+                <p>Weight of patient (kg):</p>
+                <input type="number" min="20" max="120" name="weight" id="weight" onclick="modcal();" required/>
+                <br /><br />
+                <p>Serum creatinine (micromol/L):</p>
+                <input type="number" min="30" max="500" name="serum-creatinine" id="serum-creatinine" onclick="modcal();" required/>
+                <br />
+              </div>
+              <hr />
+              <button type="button" class="btn btn-primary" onclick="calculateCreatinineClearance();" id="ctc-button">Calculate</button>
+              <!-- Add tooltip here -->
+              <i 
+              class="fas fa-info-circle" 
+              data-toggle="tooltip" 
+              data-placement="top" 
+              title="This calculates CrCl according to the Cockcroft-Gault equation, for use in patients with stable renal function to estimate creatinine clearance.">
+              </i> 
+              <br /><br />
+              <p class="h7 mb-0 font-weight-bold text-gray-800" id="result"></p>
+              <button type="button" class="btn btn-danger" onclick="popup.hideCeatCalcFormPopup();">Close</button>
+                <br /><br />
+                <p id="results"></p>
+              </body>
+              </html>
+                  </div>
+            </div>
+          </div>
 
             <div class="row last-row">
               <div class="col-xl-12 col-lg-12">
@@ -488,47 +511,44 @@
               }
             });
             </script>
- <!-- Serch box drug by name or BNF CODE -->
-
-            
-
-             </form>
-
- <div id="search-box">
-  <div class="card">
-      <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">SEARCH FOR DRUG BY BNF NAME OR BNF CODE</h6>
-    </div>
-        <selection class="selection">
-          <div class="columns">
-          <input type="text" class="input" placeholder= "SEARCH HERE" name="q" hx-get="/search" hx-trigger="keyup changeddelay:500ms">
-          <input type="submit" value="Search" class="btn btn-outline-secondary" />
-     </div>
-        <table class="table is-fullwidth">
-        <thead>
-          <td>BNF code</td>
-          <td>BNF name</td>
-          <td>NIC</td>
-          <td>ACT Cost</td>
-        </thead>
-          <tbody>
-           {% for row in dashboard_data.search %}
-            <tr>
-              <td>{{ row.BNF_code }}</td>
-              <td>{{ row.BNF_name }}</td>
-              <td>{{ row.NIC }}</td>
-              <td>{{ row.ACT_cost }}</td>
-            </tr>
-          {% endfor %}
-          </tbody id="results">
-        </table>
-        <button type="button" class="btn btn-danger" onclick="popup.hideSearchPopup();">Close</button>
+        </div>  
       </div>
     </div>
-  </div>
-</div>
-</div>
-</div> 
+  </div> 
+    <!-- BMI Calculator -->
+    <div id="BMI-calc">
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">BMI Calculator For Adult Patient</h6>
+            </div>
+               <div class="card-body">
+                <p>Weight of patient (kg):</p>
+                     <input type="number" min="20" max="250" name="weight1" id="weight1" onclick="modcal();" required/>
+                     <br /><br />
+                     <p>Height of patient (cm):</p>
+                     <input type="number" min="20" max="250" name="height1" id="height1" onclick="modcal();" required/>
+                        <hr />
+            <button type="button" class="btn btn-primary" onclick="calculateBMI();" id="ctc-button">Calculate</button>
+            <!-- Add tooltip here -->
+            <i 
+            class="fas fa-info-circle" 
+            data-toggle="tooltip" 
+            data-placement="top" 
+            title="For most adults the BMI below 18.5 is underweight range, 18.5 to 24.9 is healthy weight range, 25 to 29.9 is overweight range, 30 to 39.9 is obese range, 40 or above is severely obese range.">
+            </i> 
+            <br /><br />
+            <p class="h7 mb-0 font-weight-bold text-gray-800" id="BMIresult"></p>
+            <button type="button" class="btn btn-danger" onclick="popup.hideBMICalcFormPopup();">Close</button>
+                   <p id="BMIresult"></p>
+                </body>
+                </html>
+             </div>
+           </div>
+         </div>
+       </div>
+      </div>
+    </div>
+  </div>  
             <!-- About popup -->
             <div id="about-box">
               <div class="card">
@@ -576,5 +596,61 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
 
+    <script>
+      function generateReport() {
+          window.location.href = "/generate-report";  // Redirect to the Flask route (to be implemented in Step 2)
+      }
+    </script>
+
   </body>
 </html>
+
+  <!-- Creatinine Clearance Calculator -->
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Creatinine Clearance Calculator</title>
+  </style>
+  <script>
+    function calculateCreatinineClearance() {
+      // Get input values
+      var serumCreatinine = parseFloat(document.getElementById('serum-creatinine').value);
+      var age = parseInt(document.getElementById('age').value);
+      var weight = parseFloat(document.getElementById('weight').value);
+      var sex = document.getElementById('sex').value;
+      // Calculate creatinine clearance
+      var creatinineClearance;
+      if (sex === 'Male') {
+        creatinineClearance = ((140 - age) * weight * 1.23) / (serumCreatinine);
+      } else {
+        creatinineClearance = ((140 - age) * weight * 1.23 * 0.85) / (serumCreatinine);
+      }
+  
+      // Display the result with disclaimer and explanation
+      var result = " The estimated creatinine clearance result is: " + creatinineClearance.toFixed(2) + " mL/min.";
+      document.getElementById('result').innerHTML = result;
+    }
+  </script>
+</head>
+<body>
+    <!-- BMI Calculator -->
+  <!DOCTYPE html>
+    <html>
+     <head>
+       <title>BMI Calcualtor For Adult Patient</title>
+         </style>
+             <script>
+              function calculateBMI() {
+                  // Get input values
+                   var weight1 = parseFloat(document.getElementById('weight1').value);
+                   var height1 = parseFloat(document.getElementById('height1').value);
+        // Calculate BMIResult
+        var BMI;
+        BMI = (weight1 / (height1 * height1)) * 10000 ;
+        // Display the result with disclaimer and explanation
+        var BMIresult = "The estimated BMI result is:  " + BMI.toFixed(1);
+        document.getElementById('BMIresult').innerHTML = BMIresult;
+      }
+    </script>
+  </head>
+  <body>

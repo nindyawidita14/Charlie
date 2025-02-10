@@ -12,8 +12,9 @@ import json
 import plotly
 import plotly.express as px
 import pandas as pd
-from flask import Blueprint, render_template, request,jsonify
+from flask import Blueprint, render_template, request, Response
 from app.database.controllers import Database
+from app import app
 
 views = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -70,15 +71,20 @@ def home():
 
 def generate_data_for_tiles():
     """Generate the data for the four home page tiles."""
+
+    # Get the top prescribed item and its percentage
+    top_item_data = db_mod.get_top_prescribed_item_with_percentage()
     tile_data = {
         "total_items": db_mod.get_total_number_items(),
         "avg_act_cost": db_mod.get_average_act_cost(),
         "total_act_cost": db_mod.get_total_act_cost(),
-        "top_px_item": None,
+        "top_px_item": top_item_data["top_item_name"],
+        "top_px_item_count": top_item_data["top_item_count"],
+        "top_px_item_percentage": top_item_data["percentage"],
         "num_unique_items": db_mod.get_number_unique_items()
     }
-    return tile_data
 
+    return tile_data
 
 
 def generate_top_px_items_barchart_data():
@@ -154,6 +160,22 @@ def search_list (q):
       #   return render_template('index.html' , search=results , legend="Search Result")
  # else:
         # return redirect('/')
+
+@app.route('/generate_report', methods=['GET'])
+def generate_report():
+    pdf_buffer = BytesIO()
+    c = canvas.Canvas(pdf_buffer)
+    
+    c.drawString(100, 750, "Dashboard Report")
+    c.drawString(100, 730, "This is a sample report for the dashboard.")
+    
+    c.showPage()
+    c.save()
+
+    pdf_buffer.seek(0)
+    return Response(pdf_buffer, mimetype='application/pdf',
+                    headers={'Content-Disposition': 'inline; filename=dashboard_report.pdf'})
+
   
 def generate_data_for_card():
     """Generate data for the percentage card"""
@@ -164,4 +186,9 @@ def generate_data_for_card():
         "Antiprotozoal": db_mod.get_percentage_of_Antiprotozoal(),
         "Anthelmintics": db_mod.get_percentage_of_Anthelmintics(),
     }
+    print("Card Data:", card_data)  # Debug print
     return card_data
+
+
+
+
